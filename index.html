@@ -70,7 +70,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 <!-- Drawer Content -->
                 <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect" >
-                    <a data-route="home" href="">
+                    <a data-route="home" href="/bulletinpolymer/">
                         <iron-icon icon="home"></iron-icon>
                         <span>Home</span>
                     </a>
@@ -186,7 +186,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         function markActiveLink(el) {   
     var filterid = $(el).attr("id");
     var haha = filterid;
-    console.log(haha);
     $('#collapses').empty();
     var i = 0
 while (i < Object.keys(datas).length) {
@@ -224,7 +223,6 @@ while (i < Object.keys(datas).length) {
                 i++;
 }
 else{
-    console.log("hue");
     i++;
 }
 
