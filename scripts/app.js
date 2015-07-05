@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 (function(document) {
   $(function(){ 
    $.ajax({
-      url: '//mmu-api.appspot.com/secure',
+      url: '//mmu-api.appspot.com/test',
       dataType: "jsonp",
       jsonpCallback: "bulletin",
       cache: true,
