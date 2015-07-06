@@ -20,9 +20,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           parsejson();
           },
       error: function (err){
-        //if(navigator.onLine === true){
-          //window.location.replace("//mmu-api.appspot.com/loginbeta");
-        //}
+        if(navigator.onLine === true){
+          window.location.replace("//mmu-api.appspot.com/loginbeta");
+        }
       }
    });
 });
