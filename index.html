@@ -20,6 +20,15 @@
 				font-family: Roboto;
 				background-color: #ECEFF1;
 			}
+			h1, h2, h3, h4, h5, h6, p, a, span{
+				overflow-wrap: break-word;
+			}
+			a{
+			    font-weight: 500;
+			    color: #3E3E3E;
+			    text-decoration: none;
+			    font-size: 0.9em;				
+			}
 			#dropShadow.has-shadow.paper-header-panel {
 				opacity: 0;
 			}
@@ -44,7 +53,9 @@
 			}
 			iron-collapse{
 				background-color: #FAFAFA;
-				color: #212121;				
+				color: #212121;
+				padding: 2rem;
+				border-bottom: 1px solid #DDDDDD;
 			}
 			paper-card .card-content{
 				padding: 0;
@@ -74,7 +85,7 @@
 			}
 			.content p{
 				margin: 0;
-				padding: 2rem;
+				padding: 0 0 2rem 0;
 				line-height: 2em;
 				font-family: Roboto;
 				font-size: 0.9em;
@@ -211,6 +222,6 @@
 				pages.selected = 0;
 			</script>
 		</template>
-		<script src="main.js" ></script>
+		<script src="main.js" async></script>
 	</body>
 </html>

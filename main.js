@@ -45,18 +45,18 @@
     });
 
     bul.updateItems = function(snapshot) {
-        bul.profileURL = "https://lh4.googleusercontent.com/-KZmh-jhNPBk/AAAAAAAAAAI/AAAAAAAAgGo/nULVzcn6fP4/s96-c/photo.jpg";
+        bul.profileURL = "src/profile.png";
         this.items = [];
         snapshot.forEach(function(childSnapshot) {
-        bul.radios = [{value: "BURSARY"}, {value: "CCU"}, {value: "CDP"}, {value: "ERU"}, {value: "FCI"}, {value: "FCM"}, {value: "FET"}, { value: "FIN"}, {value: "FIST"}, {value: "FMD"}, {value: "FOB"}, {value: "FOE"}, {value: "FOL"}, {value: "FOM"}, {value: "GSM" }, { value: "IO" }, { value: "IPS" }, { value: "ITSD" }, { value: "LIB" }, { value: "MPU" }, { value: "SECURITY" }, { value: "SSC" }, { value: "STAD" }, { value: "UNITE" }, { value: "YUM" }];
+            bul.radios = [{value: "BURSARY"}, {value: "CCU"}, {value: "CDP"}, {value: "ERU"}, {value: "FCI"}, {value: "FCM"}, {value: "FET"}, { value: "FIN"}, {value: "FIST"}, {value: "FMD"}, {value: "FOB"}, {value: "FOE"}, {value: "FOL"}, {value: "FOM"}, {value: "GSM" }, { value: "IO" }, { value: "IPS" }, { value: "ITSD" }, { value: "LIB" }, { value: "MPU" }, { value: "SECURITY" }, { value: "SSC" }, { value: "STAD" }, { value: "UNITE" }, { value: "YUM" }];
             var item = childSnapshot.val();
-            this.push('items', item);
+            bul.push('items', item);
             bul.this = this;
             bul._filter = function(item) {
                 if (!item) return false;
                 return item.postDept && ~item.postDept.toLowerCase().indexOf((filterVar).toLowerCase());
             };
-        }.bind(this));
+        }.bind(bul));
         Firebase.goOffline();
     }
 
@@ -79,11 +79,10 @@
     }
 
     bul.toggle = function(event) {
-        var p = document.getElementById('text' + event.target.id)
-        p.innerHTML = p.innerHTML.replace(/\n\n/g, "<br>")
-        var tempID = '#content' + event.target.id
-        document.querySelector(tempID).toggle()
-
+        var p = document.getElementById('text' + event.target.id);
+        p.innerHTML = p.innerHTML.replace(/\n\n/g, "<br>");
+        var tempID = '#content' + event.target.id;
+        document.querySelector(tempID).toggle();
     }
 
     bul.filter = function() {

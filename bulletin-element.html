@@ -29,8 +29,9 @@
 								    <iron-collapse id="content[[item.postID]]" tabindex="0">
 								      <div class="content">
 								      	<p id="text[[item.postID]]">[[item.content]]</p>
-								      	<template is="dom-repeat" items="{{attachments}}"><h1>[[item]]</h1></template>
-								      	<!-- <a href="[[item.attachment]]">Download</a> -->
+								      	<template is="dom-repeat" items="{{item.attachment}}" as="attachment">
+								      		<a href="[[attachment]]">[[attachment]]</a>
+								      	</template>
 								      </div>
 								    </iron-collapse>    
 								</template>								  	
@@ -38,7 +39,7 @@
 							</paper-card>
 							<div id="bulletin-filter">
 								<paper-card elevation="2" id="filter-search">
-									<input type="text" name="fname" placeholder="Search (TODO)" value="{{searchValue}}">
+									<input type="text" name="fname" placeholder="Search (TODO)" value="{{filterText::input}}">
 								</paper-card>	
 
 								<paper-card elevation="2" id="filter-filter">
@@ -116,3 +117,5 @@
 
 	</script>
 </dom-module>
+
+        
