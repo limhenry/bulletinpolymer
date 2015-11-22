@@ -1,269 +1,216 @@
-
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+<html>
+	<head>
+		<title>MMU Bulletin</title>
 
-<html lang="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#147BCC">
+		<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js" async></script>
+		<link rel="import" href="elements.html">
+		<link rel="import" href="loading-element.html">
+		<link rel="import" href="bulletin-element.html">
+		<link rel="import" href="login-element.html">	
+		<script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Polymer Starter Kit" />
-    <title>Polymer Starter Kit</title>
-    <!-- Place favicon.ico in the `app/` directory -->
+		<style>
+			body{
+				margin: 0;
+				font-family: Roboto;
+				background-color: #ECEFF1;
+			}
+			#dropShadow.has-shadow.paper-header-panel {
+				opacity: 0;
+			}
+			paper-toolbar.paper-toolbar-0.tall{
+				margin-bottom: -174px;
+				height: 420px;
+				background-color: #2196F3;
+			}
+			.heading {
+				width: 100%;
+				height: auto;
+				font-size: 1em;
+				text-align: left;
+				padding: 1rem 1.4rem;
+				line-height: 2rem;
+				font-weight: 400;
+				display: block;
+				cursor: pointer;
+				background-color: #fff;
+				border: 0px;
+				border-bottom: 1px solid #ddd;  
+			}
+			iron-collapse{
+				background-color: #FAFAFA;
+				color: #212121;				
+			}
+			paper-card .card-content{
+				padding: 0;
+			}
+			#loadingPage{
+				width: 100%;
+				height: 100%;
+				background-color: #2196F3;
+				position: absolute;
+			}
+			#loadingPage img{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -60px;
+				margin-top: -60px;
+			}
+			#login-card{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -250px;
+				margin-left: -180px;
+				width: 360px;
+				height: 500px;
+				text-align: center;			
+			}
+			.content p{
+				margin: 0;
+				padding: 2rem;
+				line-height: 2em;
+				font-family: Roboto;
+				font-size: 0.9em;
+				font-weight: 400;
+			}
+			.google-login{
+				font-family: Roboto,sans-serif;
+				font-weight: 500;
+				font-size: 1.2em;
+				border-radius: 2px;
+				width: 100%;
+				padding: 12px 0;
+				border: none;
+				background: #4285f4;
+				color: #fff;
+				text-shadow: none;	
+				cursor: pointer;
+			}
+			.google-login img{
+			    height: 22px;
+			    margin: 5px;
+			    margin-top: 3px;
+			    vertical-align: middle;			
+			}
+			paper-card .card-actions{
+				border-top: none;
+			}
+			#appTitle{
+			    display: flex;
+			    font-size: 48px;
+			    color: #FFFFFF;
+			    position: relative;
+			    max-width: 940px;
+			    margin: 0 auto;
+			    font-family: Roboto;
+			    font-weight: 300;
+			    margin-bottom: 24px;				
+			}
+			#sidebyside{
+				display: flex;
+				margin: 0 auto;
+			}
+			#sidebyside_inner{
+				flex-direction: row;
+				display: flex;
+				 margin: 0 auto;
 
-    <!-- Chrome for Android theme color -->
-    <meta name="theme-color" content="#303F9F">
+			}			
+			#bulletin-card{
+				width: 80%;
+				max-width: 740px;
+				min-width: 740px;
+				min-height: 2px;
+				display: flex;
+				flex-direction: column;
+				margin-right: 32px;
+				margin-bottom: 32px;
+			}
+			#bulletin-filter{
+				flex-direction: column;
+				min-width: 200px;
+				height: 100%;
+				margin-bottom: 32px;
+			}
+			#bulletin-filter h4{
+			    margin: 0;
+			    font-weight: 400;
+			    font-size: 1.2em;
+			    padding: 24px 18px;
+			    border-bottom: 1px solid #ddd;
+			}
+			paper-radio-button{
+				display: block;
+			}
+			button:focus, iron-collapse:focus{
+				outline:0;
+			}
 
-    <!-- Web Application Manifest -->
-    <link rel="manifest" href="manifest.json">
-
-    <!-- Tile color for Win8 -->
-    <meta name="msapplication-TileColor" content="#3372DF">
-
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="PSK">
-    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
-
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
-    <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
-
-    <!-- Tile icon for Win8 (144x144) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild-->
-
-    <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <!-- endbuild -->
-
-    <!-- will be replaced with elements/elements.vulcanized.html -->
-    <link rel="import" href="elements/elements.html">
-
-    <!-- endreplace-->
-</head>
-
-<body unresolved class="fullbleed layout vertical">
-    <span id="browser-sync-binding"></span>
-    <template is="dom-bind" id="app">
-
-        <paper-drawer-panel id="paperDrawerPanel" responsive-Width="960px" >
-            <paper-header-panel drawer mode="seam" responsiveWidth="960px">
-
-                <!-- Drawer Toolbar -->
-                <paper-toolbar id="drawerToolbar">
-                    <span class="paper-font-title">Menu</span>
-                </paper-toolbar>
-
-                <!-- Drawer Content -->
-                <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect" >
-                    <a data-route="home" href="/bulletinpolymer/">
-                        <iron-icon icon="home"></iron-icon>
-                        <span>Home</span>
-                    </a>
-                    <a data-route="setting" href="setting">
-                        <iron-icon icon="info"></iron-icon>
-                        <span>Setting</span>
-                    </a>             
-                </paper-menu>
-            </paper-header-panel>
-            <paper-header-panel main mode="waterfall-tall">
-
-                <!-- Main Toolbar -->
-                <paper-toolbar id="mainToolbar" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-                    <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
-                    <span class="flex"></span>
-                    <!-- Toolbar icons -->
-                    <paper-icon-button icon="refresh" ></paper-icon-button>
-
-                     <a data-route="search" href="search">
-                        <paper-icon-button icon="search"  style="color: white;"></paper-icon-button>
-                    </a>                    
-
-                    <!-- Application name -->
-                    <div class="middle paper-font-display2 app-name">MMU Bulletin</div>
-                    <!-- Application sub title -->
-                    <div class="bottom title"></div>
-
-                </paper-toolbar>
-
-                <!-- Main Content -->
-                <div class="content">
-                    <iron-pages attr-for-selected="data-route" selected="{{route}}">
-                        <section data-route="home">
-                            <div id="collapse"></div>
-                        </section>
-                        <section data-route="setting">
-                            <paper-material elevation="1">
-                                <h2 class="paper-font-display2">Settingssss</h2>
-                                <p>This is the users section</p>
-                            </paper-material>
-                        </section>
-                        <section data-route="search">
-                            
-                                <my-greeting></my-greeting>
-                        </section>    
-                        <section data-route="filter">
-                            <h1>should show something here</h1>
-                            <div id="collapses"></div>
-                            
-                        </section>                                              
-                    </iron-pages>
-                </div>
-            </paper-header-panel>
-        </paper-drawer-panel>
-
-        <!-- Uncomment next block to enable Service Worker support (1/2) -->
-
-        <paper-toast id="caching-complete" duration="6000" text="Caching complete! This app will work offline.">
-        </paper-toast>
-
-        <platinum-sw-register auto-register clients-claim skip-waiting on-service-worker-installed="displayInstalledToast">
-            <platinum-sw-cache default-cache-strategy="networkFirst" precache-file="precache.json">
-            </platinum-sw-cache>
-        </platinum-sw-register>
-
-
-    </template>
-
-    <!-- build:js scripts/app.js -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="scripts/app.js"></script>
-    <script>
-        function parsejson() {
-            var i = 0
-            while (i < Object.keys(datas).length) {
-                //
-                var button = document.createElement("button");
-                var content = document.createElement("p");
-                var collapsecontent = document.createElement("div");
-                var ironcollapse = document.createElement("iron-collapse");
-                var attachment = document.createElement("p");
-                var paperbutton = document.createElement("paper-button");
-                var title = document.createTextNode(datas[i].title.toUpperCase() + " - " + datas[i].posted_date);
-
-                var contents = document.createTextNode(datas[i].content);
-                var s = datas[i].images;
-                s = s.replace("bulletinfile", "https://online.mmu.edu.my/bulletinfile");
-                content.innerHTML = s;
-                button.appendChild(title);
-                content.appendChild(contents);
-
-                collapsecontent.appendChild(content);
-                ironcollapse.appendChild(collapsecontent);
-                button.setAttribute("class", "heading");
-                content.setAttribute("id", "content");
-                postid = "post" + (datas[i].posted_ID);
-                button.setAttribute("onclick", "document.querySelector('#" + postid + "').toggle();");
-
-                ironcollapse.setAttribute("id", postid);
-
-                document.getElementById("collapse").appendChild(button);
-                document.getElementById("collapse").appendChild(ironcollapse);
-
-                p = document.getElementById(postid).children[0].children[0];
-                p.innerHTML = p.innerHTML.replace(/\n\n/g, "<br>");
-                i++;
-
-            }
-
-
-        }
-
-        function markActiveLink(el) {   
-    var filterid = $(el).attr("id");
-    var haha = filterid;
-    $('#collapses').empty();
-    var i = 0
-while (i < Object.keys(datas).length) {
-    if (datas[i].dept === haha){
-                //Object.keys(datas).length
-                var button = document.createElement("button");
-                var content = document.createElement("p");
-                var collapsecontent = document.createElement("div");
-                var ironcollapse = document.createElement("iron-collapse");
-                var attachment = document.createElement("p");
-                var paperbutton = document.createElement("paper-button");
-                var title = document.createTextNode(datas[i].title.toUpperCase() + " - " + datas[i].posted_date);
-
-                var contents = document.createTextNode(datas[i].content);
-                var s = datas[i].images;
-                s = s.replace("bulletinfile", "https://online.mmu.edu.my/bulletinfile");
-                content.innerHTML = s;
-                button.appendChild(title);
-                content.appendChild(contents);
-
-                collapsecontent.appendChild(content);
-                ironcollapse.appendChild(collapsecontent);
-                button.setAttribute("class", "heading");
-                content.setAttribute("id", "content");
-                postid = "post" + (datas[i].posted_ID) + "s";
-                button.setAttribute("onclick", "document.querySelector('#" + postid + "').toggle();");
-
-                ironcollapse.setAttribute("id", postid);
-
-                document.getElementById("collapses").appendChild(button);
-                document.getElementById("collapses").appendChild(ironcollapse);
-
-                p = document.getElementById(postid).children[0].children[0];
-                p.innerHTML = p.innerHTML.replace(/\n\n/g, "<br>");
-                i++;
-}
-else{
-    i++;
-}
-
-
-
-}}
-
-    </script>
-    <!-- endbuild-->
-</body>
-
+			#filter-search{
+			    display: flex;
+			    margin-bottom: 24px;				
+			}
+			#filter-filter{
+				width: 100%;
+			}
+			input{
+				padding: 0 12px;
+				height: 64px;
+				width: 100%;
+				border: none;
+				font-family: Roboto;
+				font-size: 1em;				
+			}
+			neon-animated-pages{
+				position: initial;
+			}
+			@media screen and (max-width: 1280px){
+				#bulletin-card{
+					max-width: 540px;
+					min-width: 540px;
+				}				
+				#appTitle{
+				    max-width: 752px;			
+				}				
+			}
+			@media screen and (max-width: 840px){
+				#bulletin-card{
+					width: 100%;
+					max-width: none;
+				}
+				#sidebyside{
+					display: block;
+				}
+				#sidebyside_inner{
+					flex-direction: column-reverse;
+				}
+				#bulletin-filter{
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body class="fullbleed layout vertical" unresolved>
+		<template is="dom-bind" id="app">
+			<!-- <iron-pages selected="0" class="flex"> -->
+			<neon-animated-pages class="flex" selected="0" class="flex">
+				<loading-element></loading-element>
+				<login-element></login-element>
+				<bulletin-element></bulletin-element>
+			<!-- </iron-pages> -->
+			</neon-animated-pages>
+			<script>
+				var pages = document.querySelector('neon-animated-pages');
+				pages.selected = 0;
+			</script>
+		</template>
+		<script src="main.js" ></script>
+	</body>
 </html>
-
-<!--
-<button class="heading" onclick="document.querySelector('').toggle();">title</button>
-<iron-collapse id="aaa">
-    <div class="collapse-content">
-        <p>Ccoontent</p>
-    </div>
-</iron-collapse>
-
-                if (datas[i].attachment !== "") {
-                    var attachmenturl = datas[i].attachment.replace(/, <a/g, ).split("SPLIT"); 
-                    var j = 0;
-                    //while (j < attachmenturl.length){
-
-                    while(j < attachmenturl.length){
-                        console.log(j);
-                        var s2 = j;
-                        paperbutton.innerHTML = s2;
-                        paperbutton.setAttribute("raised","");
-                        content.appendChild(paperbutton);
-                        collapsecontent.appendChild(content);
-                        j++;
-                    };
-
-                    
-                    //div.appendChild(icon);
-                }
-                else{
-
-                }
--->
